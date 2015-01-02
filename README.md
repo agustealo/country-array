@@ -4,15 +4,25 @@ country-array
 A list of countries, abbreviation codes and native language text
 
 <?php $countries = array(
+
 "AF" => "Afghanistan (‫افغانستان‬‎)",
+
 "AX" => "Åland Islands (Åland)",
+
 "AL" => "Albania (Shqipëri)",
+
 "DZ" => "Algeria (‫الجزائر‬‎)",
+
 "AS" => "American Samoa",
+
 "AD" => "Andorra",
+
 "AO" => "Angola",
+
 "AI" => "Anguilla",
+
 "AQ" => "Antarctica",
+
 "AG" => "Antigua and Barbuda",
 "AR" => "Argentina",
 "AM" => "Armenia (Հայաստան)",
