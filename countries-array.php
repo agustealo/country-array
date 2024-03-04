@@ -254,5 +254,12 @@
 "EH" => "Western Sahara (‫الصحراء الغربية‬‎)",
 "YE" => "Yemen (‫اليمن‬‎)",
 "ZM" => "Zambia",
-"ZW" => "Zimbabwe
-); ?>
+"ZW" => "Zimbabwe"
+);
+
+// Convert array to JSON
+$countries_json = json_encode($countries, JSON_PRETTY_PRINT);
+
+// Display updated list
+echo $countries_json;
+?>
