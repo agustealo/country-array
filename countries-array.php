@@ -31,7 +31,11 @@ function country_array_load(): array
 
 $countries = country_array_load();
 
-if (PHP_SAPI !== 'cli' || realpath($_SERVER['SCRIPT_FILENAME'] ?? '') === __FILE__) {
+$scriptFilename = $_SERVER['SCRIPT_FILENAME'] ?? null;
+$isDirectExecution = is_string($scriptFilename)
+    && realpath($scriptFilename) === __FILE__;
+
+if ($isDirectExecution) {
     if (!headers_sent()) {
         header('Content-Type: application/json; charset=utf-8');
     }
