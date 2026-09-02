@@ -1,59 +1,99 @@
-# Country Array Repository
+# Country Array
 
-Welcome to the Country Array Repository! This repository contains essential data about countries worldwide in two formats: PHP and JSON.
+A small, dependency-free country and territory dataset for applications that need a simple two-letter region-code lookup.
 
-## Files
+The repository exposes the same canonical data in JSON and PHP:
 
-### country-array.php
+- `countries-array.json` — canonical UTF-8 data source.
+- `countries-array.php` — PHP adapter that returns the JSON dataset as an associative array.
 
-This PHP file stores an array of countries, each identified by a two-letter country code and its corresponding name. 
+## Quick start
 
-### country-array.json
+### JSON
 
-The JSON file presents the same list of countries as the PHP file, providing a structured format for easy integration into various applications.
+```js
+import countries from './countries-array.json' with { type: 'json' };
 
-## Usage
+console.log(countries.US); // United States
+console.log(countries.TR); // Türkiye
+```
 
-1. **Clone or Download:** Start by cloning or downloading this repository to access the country data files.
+Or load the file in any environment that can parse JSON.
 
-2. **Integrate into Your Project:** Include the `country-array.php` file in your PHP projects, or utilize the `country-array.json` file in any programming language or application.
-
-3. **Retrieve Country Data:** Use the provided country data to retrieve country names and their corresponding codes as needed in your projects.
-
-## Example
+### PHP
 
 ```php
 <?php
 
-// Original array of countries
-$countries = array(
-    "AF" => "Afghanistan (‫افغانستان‬‎)",
-    "AX" => "Åland Islands (Åland)",
-    "AL" => "Albania (Shqipëri)",
-    // Add more countries here...
-    "ZW" => "Zimbabwe"
-);
+$countries = require __DIR__ . '/countries-array.php';
 
-// Convert array to JSON
-$countries_json = json_encode($countries, JSON_PRETTY_PRINT);
+echo $countries['US']; // United States
+```
 
-// Display updated list
-echo $countries_json;
+Requiring the PHP file is side-effect free: it returns the array and does not print output.
 
-?>
+Running the file directly prints the canonical dataset as JSON:
+
+```bash
+php countries-array.php
+```
+
+## Data contract
+
+Each entry is a two-letter uppercase region code mapped to a non-empty English display name.
+
+The collection is designed for country/region selectors and general application UI. It is primarily based on ISO-style country codes, while retaining a small set of Unicode CLDR compatibility territory codes that have historically been part of this project, including `AC`, `CP`, `DG`, `EA`, `IC`, `TA`, and `XK`.
+
+Because of those compatibility entries, consumers **must not assume every key is an officially assigned ISO 3166-1 alpha-2 code**.
+
+See [docs/DATA.md](docs/DATA.md) for naming policy, compatibility codes, and maintenance rules.
+
+## Current naming
+
+The dataset uses modern user-facing English names where appropriate, including:
+
+- `CZ` → Czechia
+- `MK` → North Macedonia
+- `SZ` → Eswatini
+- `TR` → Türkiye
+
+## Validation
+
+Run the repository validator:
+
+```bash
+python scripts/validate.py
+```
+
+It checks:
+
+- valid UTF-8 JSON
+- duplicate-free two-letter uppercase keys
+- non-empty names
+- expected modern names
+- PHP syntax
+- silent PHP inclusion
+- exact PHP/JSON data parity
+- direct PHP JSON output
+
+GitHub Actions runs the same validation for pushes and pull requests.
+
+## Repository layout
+
+```text
+countries-array.json      Canonical dataset
+countries-array.php       PHP adapter
+scripts/validate.py       Data and PHP validation
+docs/DATA.md              Data policy and compatibility notes
+CONTRIBUTING.md            Contribution workflow
+CHANGELOG.md               Release history
+LICENSE                    MIT license
 ```
 
 ## Contributing
 
-Contributions to this repository are highly encouraged! If you notice any errors, wish to add more countries, or have suggestions for improvements, please feel free to open an issue or create a pull request.
-
-## Change Log
-
-- **v0.01 (01-02-15):** Initial release.
-- **v0.02 (04-04-23):**
-  - Added the change log section.
-  - Improved code structure and readability.
+Corrections and additions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Data changes should update the canonical JSON file; the PHP adapter reads that file automatically.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+MIT. See [LICENSE](LICENSE).
